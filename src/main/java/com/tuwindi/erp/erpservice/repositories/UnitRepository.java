@@ -9,7 +9,7 @@ import java.util.List;
 public interface UnitRepository extends JpaRepository<Unity, Long> {
     boolean existsByTitle(String title);
 
-    List<Unity> findDistinctByIdAndTitle(Long id, String title);
+    boolean existsDistinctByTitleAndId(String title, Long id);
 
     List<Unity> findAllByTypeUnity(Enumeration.TYPE_UNITY typeUnity);
 }

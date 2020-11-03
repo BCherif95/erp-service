@@ -16,24 +16,40 @@ import java.util.Optional;
 @Service
 @AllArgsConstructor
 public class EmployeeService {
+
     private final EmployeeRepository employeeRepository;
 
-    public ResponseBody getAll(PageBody pageBody) {
+    public Page<Employee> getAll(PageBody pageBody) {
+        Sort sort = Sort.by(pageBody.getSortdirection(), pageBody.getSortBy());
+        Pageable pageable = PageRequest.of(pageBody.getPageNumber(), pageBody.getPageSize(), sort);
+        return employeeRepository.findAll(pageable);
+    }
+
+    public ResponseBody findAll() {
         try {
-            Sort sort = Sort.by(pageBody.getSortdirection(), pageBody.getSortBy());
-            Pageable pageable = PageRequest.of(pageBody.getPageNumber(), pageBody.getPageSize(), sort);
-            Page<Employee> employees = employeeRepository.findAll(pageable);
-            return ResponseBody.with(employees, "Liste des employés !!!");
+            return ResponseBody.with(employeeRepository.findAll(), "Liste des emplois !!!");
         } catch (Exception e) {
             e.printStackTrace();
-            return ResponseBody.error("Une erreur est survenue!!!");
+            return ResponseBody.error("Une erreur est survenue !");
+        }
+    }
+
+    public ResponseBody getById(Long id) {
+        try {
+            Optional<Employee> employeeOptional = employeeRepository.findById(id);
+            return employeeOptional
+                    .map(value -> ResponseBody.with(value, "Recuperer avec succes!"))
+                    .orElseGet(() -> ResponseBody.error("Une erreur est survenue!"));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseBody.error("Une erreur est survenue!");
         }
     }
 
     public ResponseBody create(Employee employee) {
         try {
             if (employeeRepository.existsByFirstnameAndLastname(employee.getFirstname(), employee.getLastname())) {
-                return ResponseBody.error("Cet employé existe déjà !!!");
+                return ResponseBody.error("Ce employé existe déjà !!!");
             }
             return ResponseBody.with(employeeRepository.save(employee), "Ajouter avec succès !!!");
         } catch (Exception e) {
@@ -46,9 +62,9 @@ public class EmployeeService {
         try {
             Optional<Employee> employeeOptional = employeeRepository.findById(employee.getId());
             if (!employeeOptional.isPresent()) {
-                return ResponseBody.error("Cet employé n'existe pas !!!");
+                return ResponseBody.error("Ce employé n'existe pas !!!");
             }
-            return ResponseBody.with(create(employee), "Modifier avec succès !!!");
+            return ResponseBody.with(employeeRepository.save(employee), "Modifier avec succès !!!");
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseBody.error("Une erreur est survenue !!!");

@@ -35,6 +35,8 @@ public class BudgetLine extends AuditableParent<BudgetLine> implements Serializa
     private Double solde = 0D;
     private Double finance = 0D;
     private Double stayToFinance = 0D;
+    private Double realized = 0D;
+    private Double difference = 0D;
     @Column(name = "state")
     @Enumerated(EnumType.STRING)
     private Enumeration.LINE_STATE state = Enumeration.LINE_STATE.PENDING;

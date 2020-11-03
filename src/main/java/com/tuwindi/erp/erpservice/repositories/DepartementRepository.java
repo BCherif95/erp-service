@@ -8,5 +8,5 @@ import java.util.List;
 public interface DepartementRepository extends JpaRepository<Department, Long> {
     boolean existsByName(String name);
 
-    List<Department> findDistinctByIdAndName(Long id, String name);
+    boolean existsDistinctByNameAndId(String name, Long id);
 }

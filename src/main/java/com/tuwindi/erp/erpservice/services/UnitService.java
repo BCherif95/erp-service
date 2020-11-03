@@ -1,6 +1,5 @@
 package com.tuwindi.erp.erpservice.services;
 
-import com.tuwindi.erp.erpservice.entities.Category;
 import com.tuwindi.erp.erpservice.entities.Unity;
 import com.tuwindi.erp.erpservice.repositories.UnitRepository;
 import com.tuwindi.erp.erpservice.utils.PageBody;
@@ -73,7 +72,7 @@ public class UnitService {
         try {
             Optional<Unity> unityOptional = unitRepository.findById(unity.getId());
             if (unityOptional.isPresent()) {
-                boolean isExist = unitRepository.findDistinctByIdAndTitle(unity.getId(), unity.getTitle()).isEmpty();
+                boolean isExist = unitRepository.existsDistinctByTitleAndId(unity.getTitle(), unity.getId());
                 if (!isExist) {
                     return ResponseBody.error("Cette unité existe déjà !");
                 }

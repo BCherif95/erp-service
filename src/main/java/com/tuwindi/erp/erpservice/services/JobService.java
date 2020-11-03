@@ -1,7 +1,7 @@
 package com.tuwindi.erp.erpservice.services;
 
-import com.tuwindi.erp.erpservice.entities.Category;
-import com.tuwindi.erp.erpservice.repositories.CategoryRepository;
+import com.tuwindi.erp.erpservice.entities.Job;
+import com.tuwindi.erp.erpservice.repositories.JobRepository;
 import com.tuwindi.erp.erpservice.utils.PageBody;
 import com.tuwindi.erp.erpservice.utils.ResponseBody;
 import lombok.AllArgsConstructor;
@@ -15,20 +15,19 @@ import java.util.Optional;
 
 @Service
 @AllArgsConstructor
-public class CategoryService {
+public class JobService {
 
-    private final CategoryRepository categoryRepository;
+    private final JobRepository jobRepository;
 
-    public Page<Category> getAll(PageBody pageBody) {
+    public Page<Job> getAll(PageBody pageBody) {
         Sort sort = Sort.by(pageBody.getSortdirection(), pageBody.getSortBy());
         Pageable pageable = PageRequest.of(pageBody.getPageNumber(), pageBody.getPageSize(), sort);
-        return categoryRepository.findAll(pageable);
+        return jobRepository.findAll(pageable);
     }
-
 
     public ResponseBody findAll() {
         try {
-            return ResponseBody.with(categoryRepository.findAll(), "Liste des catégories !!!");
+            return ResponseBody.with(jobRepository.findAll(), "Liste des proféssions !!!");
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseBody.error("Une erreur est survenue !");
@@ -37,8 +36,8 @@ public class CategoryService {
 
     public ResponseBody getById(Long id) {
         try {
-            Optional<Category> optionalCategory = categoryRepository.findById(id);
-            return optionalCategory
+            Optional<Job> optionalUnity = jobRepository.findById(id);
+            return optionalUnity
                     .map(value -> ResponseBody.with(value, "Recuperer avec succes!"))
                     .orElseGet(() -> ResponseBody.error("Une erreur est survenue!"));
         } catch (Exception e) {
@@ -47,29 +46,29 @@ public class CategoryService {
         }
     }
 
-    public ResponseBody create(Category category) {
+    public ResponseBody create(Job job) {
         try {
-            if (categoryRepository.existsByName(category.getName())) {
-                return ResponseBody.error("Cette categorie existe déjà !!!");
+            if (jobRepository.existsByTitle(job.getTitle())) {
+                return ResponseBody.error("Cette proféssion existe déjà !!!");
             }
-            return ResponseBody.with(categoryRepository.save(category), "Ajouter avec succès !!!");
+            return ResponseBody.with(jobRepository.save(job), "Ajouter avec succès !!!");
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseBody.error("Une erreur est survenue !!!");
         }
     }
 
-    public ResponseBody update(Category category) {
+    public ResponseBody update(Job job) {
         try {
-            Optional<Category> categoryOptional = categoryRepository.findById(category.getId());
-            if (categoryOptional.isPresent()) {
-                boolean isExist = categoryRepository.existsDistinctByNameAndId(category.getName(), category.getId());
+            Optional<Job> jobOptional = jobRepository.findById(job.getId());
+            if (jobOptional.isPresent()) {
+                boolean isExist = jobRepository.existsDistinctByTitleAndId(job.getTitle(),job.getId());
                 if (!isExist) {
-                    return ResponseBody.error("Cette categorie existe déjà !");
+                    return ResponseBody.error("Cette proféssion existe déjà !");
                 }
-                return ResponseBody.with(categoryRepository.save(category), "Modifier avec succes !");
+                return ResponseBody.with(jobRepository.save(job), "Modifier avec succes !");
             } else {
-                return ResponseBody.error("Cet categorie n'existe pas!");
+                return ResponseBody.error("Cette proféssion n'existe pas!");
             }
         } catch (Exception e) {
             e.printStackTrace();

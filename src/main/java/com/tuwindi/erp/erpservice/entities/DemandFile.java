@@ -5,27 +5,22 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "request")
+@Table(name = "demand_file")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
 @EqualsAndHashCode(callSuper = true)
-public class Request extends AuditableParent<Request> implements Serializable {
+public class DemandFile extends AuditableParent<DemandFile> implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    private String label;
+    private String fileName;
     private String description;
-    private String motif;
-    @Column(name = "start_date")
-    private LocalDateTime startDate;
-    @Column(name = "end_date")
-    private LocalDateTime endDate;
+    private Boolean status;
     @ManyToOne
-    @JoinColumn(name = "employee_id")
-    private Employee employee;
+    @JoinColumn(name = "demand_id", nullable = false)
+    private Demand demand;
 }

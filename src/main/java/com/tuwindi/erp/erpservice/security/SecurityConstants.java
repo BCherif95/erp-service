@@ -6,6 +6,8 @@ public class SecurityConstants {
     public static final String USER_SAVE_URL = "/api/user/save";
     public static final String DOWNLOAD_URL = "/api/budget-lines/download/{id}";
     public static final String ACCESS_DENIED = "/acces-denied";
+    public static final String SPEND_FILE_URL = "/api/spends/images/**";
+    public static final String DEMAND_FILE_URL = "/api/demandFiles/files/**";
 
     // Signing key for HS512 algorithm
     // You can use the page https://mkjwk.org/ to generate all kinds of keys

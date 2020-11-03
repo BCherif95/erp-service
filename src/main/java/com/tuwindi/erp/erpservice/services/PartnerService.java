@@ -1,6 +1,5 @@
 package com.tuwindi.erp.erpservice.services;
 
-import com.tuwindi.erp.erpservice.entities.Category;
 import com.tuwindi.erp.erpservice.entities.Partner;
 import com.tuwindi.erp.erpservice.repositories.PartnerRepository;
 import com.tuwindi.erp.erpservice.utils.PageBody;
@@ -63,13 +62,13 @@ public class PartnerService {
         try {
             Optional<Partner> partnerOptional = partnerRepository.findById(partner.getId());
             if (partnerOptional.isPresent()) {
-                boolean isExist = partnerRepository.findDistinctByIdAndName(partner.getId(), partner.getName()).isEmpty();
+                boolean isExist = partnerRepository.existsDistinctByNameAndId(partner.getName(), partner.getId());
                 if (!isExist) {
                     return ResponseBody.error("Ce partenaire existe déjà !");
                 }
                 return ResponseBody.with(partnerRepository.save(partner), "Modifier avec succes !");
             } else {
-                return ResponseBody.error("Cet partenaire n'existe pas!");
+                return ResponseBody.error("Ce partenaire n'existe pas!");
             }
         } catch (Exception e) {
             e.printStackTrace();

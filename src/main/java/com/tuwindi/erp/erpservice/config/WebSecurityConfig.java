@@ -55,6 +55,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(SecurityConstants.DOWNLOAD_URL).permitAll()//
                 .antMatchers(SecurityConstants.ACCESS_DENIED).permitAll()//
                 .antMatchers(SecurityConstants.USER_SAVE_URL).permitAll()//
+                .antMatchers(SecurityConstants.SPEND_FILE_URL).permitAll()//
+                .antMatchers(SecurityConstants.DEMAND_FILE_URL).permitAll()//
                 // .antMatchers("/h2-console/**/**").permitAll()
                 // Disallow everything else..
                 .anyRequest().authenticated();
@@ -128,6 +130,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
         allowedHeaders.add("Origin");
         allowedHeaders.add("Content-Type");
+        allowedHeaders.add("enctype");
         allowedHeaders.add("Accept");
         allowedHeaders.add("Authorization");
         allowedHeaders.add("X-req");

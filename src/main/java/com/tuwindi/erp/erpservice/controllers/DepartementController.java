@@ -14,9 +14,19 @@ public class DepartementController {
 
     private final DepartementService departementService;
 
-    @GetMapping
-    public ResponseEntity<?> getAll(PageBody pageBody) {
+    @PostMapping("all")
+    public ResponseEntity<?> getAll(@RequestBody PageBody pageBody) {
         return ResponseEntity.ok(departementService.getAll(pageBody));
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<?> getById(@PathVariable Long id) {
+        return ResponseEntity.ok(departementService.getById(id));
+    }
+
+    @GetMapping
+    public ResponseEntity<?> findAll() {
+        return ResponseEntity.ok(departementService.findAll());
     }
 
     @PostMapping

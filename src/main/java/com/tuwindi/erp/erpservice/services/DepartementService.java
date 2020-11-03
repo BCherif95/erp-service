@@ -19,15 +19,30 @@ public class DepartementService {
 
     private final DepartementRepository departementRepository;
 
-    public ResponseBody getAll(PageBody pageBody) {
+    public Page<Department> getAll(PageBody pageBody) {
+        Sort sort = Sort.by(pageBody.getSortdirection(), pageBody.getSortBy());
+        Pageable pageable = PageRequest.of(pageBody.getPageNumber(), pageBody.getPageSize(), sort);
+        return departementRepository.findAll(pageable);
+    }
+
+    public ResponseBody findAll() {
         try {
-            Sort sort = Sort.by(pageBody.getSortdirection(), pageBody.getSortBy());
-            Pageable pageable = PageRequest.of(pageBody.getPageNumber(), pageBody.getPageSize(), sort);
-            Page<Department> departments = departementRepository.findAll(pageable);
-            return ResponseBody.with(departments, "Liste des départements !!!");
+            return ResponseBody.with(departementRepository.findAll(), "Liste des departements !!!");
         } catch (Exception e) {
             e.printStackTrace();
-            return ResponseBody.error("Une erreur est survenue!!!");
+            return ResponseBody.error("Une erreur est survenue !");
+        }
+    }
+
+    public ResponseBody getById(Long id) {
+        try {
+            Optional<Department> optionalDepartment = departementRepository.findById(id);
+            return optionalDepartment
+                    .map(value -> ResponseBody.with(value, "Recuperer avec succes!"))
+                    .orElseGet(() -> ResponseBody.error("Une erreur est survenue!"));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseBody.error("Une erreur est survenue!");
         }
     }
 
@@ -47,13 +62,13 @@ public class DepartementService {
         try {
             Optional<Department> departmentOptional = departementRepository.findById(department.getId());
             if (departmentOptional.isPresent()) {
-                boolean isExist = departementRepository.findDistinctByIdAndName(department.getId(), department.getName()).isEmpty();
+                boolean isExist = departementRepository.existsDistinctByNameAndId(department.getName(), department.getId());
                 if (!isExist) {
                     return ResponseBody.error("Ce département existe déjà !");
                 }
                 return ResponseBody.with(departementRepository.save(department), "Modifier avec succes !");
             } else {
-                return ResponseBody.error("Cet département n'existe pas!");
+                return ResponseBody.error("Ce département n'existe pas!");
             }
         } catch (Exception e) {
             e.printStackTrace();

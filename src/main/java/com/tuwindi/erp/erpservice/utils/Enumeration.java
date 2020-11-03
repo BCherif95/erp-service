@@ -82,4 +82,38 @@ public class Enumeration {
             return desc;
         }
     }
+
+    public enum DEMAND_STATE {
+        APPROVED("A approuver"),
+        IN_VALIDATION("En validation"),
+        TO_CONFIRM("Confirmer"),
+        REFUSE("Réfuser");
+
+        private final String desc;
+
+        DEMAND_STATE(String desc) {
+            this.desc = desc;
+        }
+
+        public String getDesc() {
+            return desc;
+        }
+    }
+
+    public enum SPEND_STATE {
+        AWAITING_APPROVAL("En attente d'approbation"),
+        APPROVED("Approuvé"),
+        AWAITING_VALIDATION("En attente de validation"),
+        VALIDATION("Validé");
+
+        private final String desc;
+
+        SPEND_STATE(String desc) {
+            this.desc = desc;
+        }
+
+        public String getDesc() {
+            return desc;
+        }
+    }
 }

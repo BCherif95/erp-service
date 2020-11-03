@@ -16,7 +16,7 @@ public class BudgetController {
 
     private final BudgetService budgetService;
 
-    @PostMapping("all")
+    @PostMapping("/all")
     public ResponseEntity<Page<Budget>> getAll(@RequestBody PageBody pageBody) {
         return ResponseEntity.ok(budgetService.getAll(pageBody));
     }

@@ -8,5 +8,6 @@ import java.util.List;
 public interface PartnerRepository extends JpaRepository<Partner, Long> {
     boolean existsByName(String name);
 
-    List<Partner> findDistinctByIdAndName(Long id, String name);
+    boolean existsDistinctByNameAndId(String title, Long id);
+
 }

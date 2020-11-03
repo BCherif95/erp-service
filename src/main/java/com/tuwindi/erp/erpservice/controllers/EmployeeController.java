@@ -15,9 +15,19 @@ public class EmployeeController {
     private final EmployeeService employeeService;
 
 
-    @GetMapping
-    public ResponseEntity<?> getAll(PageBody pageBody) {
+    @PostMapping("all")
+    public ResponseEntity<?> getAll(@RequestBody PageBody pageBody) {
         return ResponseEntity.ok(employeeService.getAll(pageBody));
+    }
+
+    @GetMapping
+    public ResponseEntity<?> findAll() {
+        return ResponseEntity.ok(employeeService.findAll());
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<?> getById(@PathVariable Long id) {
+        return ResponseEntity.ok(employeeService.getById(id));
     }
 
     @PostMapping

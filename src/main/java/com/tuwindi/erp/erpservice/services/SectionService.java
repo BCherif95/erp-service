@@ -49,7 +49,7 @@ public class SectionService {
         try {
             Optional<Section> sectionOptional = sectionRepository.findById(section.getId());
             if (sectionOptional.isPresent()) {
-                boolean isExist = sectionRepository.findDistinctByIdAndTitle(section.getId(), section.getTitle()).isEmpty();
+                boolean isExist = sectionRepository.existsDistinctByTitleAndId(section.getTitle(),section.getId());
                 if (!isExist) {
                     return ResponseBody.error("Cette section existe déjà !");
                 }

@@ -1,6 +1,5 @@
 package com.tuwindi.erp.erpservice.services;
 
-import com.tuwindi.erp.erpservice.entities.Budget;
 import com.tuwindi.erp.erpservice.entities.BudgetLine;
 import com.tuwindi.erp.erpservice.entities.LinePartner;
 import com.tuwindi.erp.erpservice.repositories.BudgetLineRepository;
@@ -62,7 +61,7 @@ public class LinePartnerService {
     public Page<LinePartner> findAllByBudget(PageBody pageBody) {
         Sort sort = Sort.by(pageBody.getSortdirection(), pageBody.getSortBy());
         Pageable pageable = PageRequest.of(pageBody.getPageNumber(), pageBody.getPageSize(), sort);
-        return linePartnerRepository.findAllElementByBudget(pageBody.getBudgetId(),pageable);
+        return linePartnerRepository.findAllElementByBudget(pageBody.getBudgetId(), pageable);
     }
 
    /* public ResponseBody findAllByBudget(Long id) {

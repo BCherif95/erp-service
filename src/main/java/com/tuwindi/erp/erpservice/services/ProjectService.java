@@ -61,7 +61,7 @@ public class ProjectService {
         try {
             Optional<Project> projectOptional = projectRepository.findById(project.getId());
             if (projectOptional.isPresent()) {
-                boolean isExist = projectRepository.findDistinctByIdAndTitle(project.getId(), project.getTitle()).isEmpty();
+                boolean isExist = projectRepository.existsDistinctByTitleAndId(project.getTitle(), project.getId());
                 if (!isExist) {
                     return ResponseBody.error("Ce projet existe déjà !");
                 }

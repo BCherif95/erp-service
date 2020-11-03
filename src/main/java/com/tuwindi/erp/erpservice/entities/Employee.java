@@ -20,12 +20,14 @@ public class Employee extends AuditableParent<Employee> implements Serializable 
     private String lastname;
     @Column(name = "firstname", length = 100, unique = true)
     private String firstname;
-    private String fonction;
+    @OneToOne
+    @JoinColumn(name = "job_id", referencedColumnName = "id")
+    private Job job;
     @Column(name = "email", length = 100, unique = true)
     private String email;
     private String telephone;
     private String address;
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne
     @JoinColumn(name = "department_id", referencedColumnName = "id")
     private Department department;
 }
